@@ -14,8 +14,9 @@ public class ServerThread extends Thread {
     BufferedReader inFromClient;
     DataOutputStream outToClient;
 
-    public ServerThread(Socket socket) {
+    public ServerThread(Socket socket, ServerSocket server) {
         this.client = socket;
+        this.server = server;
     }
 
     @Override
@@ -30,10 +31,10 @@ public class ServerThread extends Thread {
     public void comunica() throws Exception {
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
         outToClient = new DataOutputStream(client.getOutputStream());
-        //ciclo infinito che termina con 'FINE'
+        // ciclo infinito che termina con 'FINE'
         for (;;) {
             receivedString = inFromClient.readLine();
-            if (receivedString == null || receivedString.equals("FINE")) {
+            if (receivedString == null || receivedString.equals("FINE") || receivedString.equals("STOP")) {
                 outToClient.writeBytes(receivedString + " (=>server in chiusura...)" + '\n');
                 System.out.println("Echo sul server in chiusura :" + receivedString);
                 break;
@@ -46,5 +47,9 @@ public class ServerThread extends Thread {
         inFromClient.close();
         System.out.println("9 Chiusura socket" + client);
         client.close();
+        if (receivedString.equals("STOP")) {
+            server.close();
+        }
     }
 }
+

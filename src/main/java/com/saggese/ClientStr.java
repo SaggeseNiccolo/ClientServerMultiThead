@@ -42,9 +42,9 @@ public class ClientStr {
             outToServer.writeBytes(userString + '\n');
             stringFromServer = inFromServer.readLine();
             System.out.println("7 ... risposta dal server " + '\n' + stringFromServer);
-            if (userString.equals("FINE")) {
+            if (userString.equals("FINE") || userString.equals("STOP")) {
                 System.out.println("8 CLIENT: termina elaborazione e chiude la connessione");
-                mysocket.close();
+                mysocket.close(); //chiude il socket (canale aperto verso il server)
                 break;
             }
         } catch (Exception e) {
