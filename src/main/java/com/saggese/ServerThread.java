@@ -31,7 +31,7 @@ public class ServerThread extends Thread {
     public void comunica() throws Exception {
         inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
         outToClient = new DataOutputStream(client.getOutputStream());
-        // ciclo infinito che termina con 'FINE'
+        // ciclo infinito che termina con 'FINE' o 'STOP'
         for (;;) {
             receivedString = inFromClient.readLine();
             if (receivedString == null || receivedString.equals("FINE") || receivedString.equals("STOP")) {
@@ -49,6 +49,10 @@ public class ServerThread extends Thread {
         client.close();
         if (receivedString.equals("STOP")) {
             server.close();
+            // for (int i = 0; i < MultiServer.ports.size(); i++) {
+            //     Socket s = new Socket();
+            //     s.closePort(MultiServer.ports.get(i));
+            // }
         }
     }
 }
