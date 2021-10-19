@@ -49,10 +49,9 @@ public class ServerThread extends Thread {
         client.close();
         if (receivedString.equals("STOP")) {
             server.close();
-            // for (int i = 0; i < MultiServer.ports.size(); i++) {
-            //     Socket s = new Socket();
-            //     s.closePort(MultiServer.ports.get(i));
-            // }
+            for (int i = 0; i < MultiServer.sockets.size(); i++) {
+                MultiServer.sockets.get(i).close();
+            }
         }
     }
 }

@@ -2,14 +2,13 @@ package com.saggese;
 
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * 
  */
 public class MultiServer {
 
-    // public static Vector ports = new Vector();
+    public static ArrayList<ServerSocket> sockets = new ArrayList<>();
 
     public void start() {
         try {
@@ -18,10 +17,10 @@ public class MultiServer {
             for (;;) {
                 System.out.println("1 Server in attesa ... ");
                 Socket socket = serverSocket.accept();
-                // ports.add(socket.getPort());
-                // for(int i = 0; i < ports.size(); i++){
-                //     System.out.println(ports.get(i));
-                // }
+                sockets.add(serverSocket);
+                for(int i = 0; i < sockets.size(); i++){
+                    System.out.println(sockets.get(i));
+                }
                 System.out.println("3 Server socket " + socket);
                 ServerThread serverThread = new ServerThread(socket, serverSocket);
                 serverThread.start();
